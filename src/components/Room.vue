@@ -36,6 +36,7 @@ export default {
 	},
 	mounted() {
 		window.addEventListener('resize', this.getWindowSize);
+		window.addEventListener('mousedown', this.movePlayer);
 
 		this.getWindowSize();
 	},
@@ -44,6 +45,20 @@ export default {
 			this.width = document.documentElement.clientWidth;
 			this.height = document.documentElement.clientHeight;
 		},
+		movePlayer(evt) {
+			let svg = document.querySelector('#room');
+
+			var pt = svg.createSVGPoint();
+			pt.x = evt.clientX;
+			pt.y = evt.clientY;
+	
+			var cursorpt =  pt.matrixTransform(svg.getScreenCTM().inverse());
+
+			this.$store.dispatch('updatePosition', {
+				x: cursorpt.x,
+				y: cursorpt.y
+			});
+		}
 	},
 	components: {
 		Person
