@@ -12,6 +12,8 @@ import { createPerson } from '@/utils.js'
 Vue.use(Vuex)
 
 const state = {
+    audioContext: new AudioContext(),
+    
 	connected: false,
 	groupID: '',
 
