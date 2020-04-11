@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 
 /** CONFIG **/
-var SIGNALING_SERVER = "http://localhost:8080";
+var SIGNALING_SERVER = "https://cozyroom-signaling.herokuapp.com/";
 
 var ICE_SERVERS = [
 	{url:"stun:stun.l.google.com:19302"}
