@@ -1,19 +1,30 @@
 <template>
-    <g>
-	    <circle @mousedown="startDrag" :cx="metadata.x" :cy="metadata.y" r="20" fill="#00FF00" stroke="#000000" stroke-width="3"></circle>
+    <g @mousedown="startDrag">
+	    <circle  :cx="metadata.x" :cy="metadata.y" r="20" fill="#00FF00" stroke="#000000" stroke-width="3"></circle>
+        <!--<circle :cx="facePosition.x" :cy="facePosition.y" r="10" fill="rgba(0,0,0,0.3)"></circle>-->
+        <circle :cx="facePosition.x-4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
+        <circle :cx="facePosition.x+4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
+        <path :d="`M ${facePosition.x-4} ${facePosition.y+4} l 8 0`" stroke="#000000" stroke-width="2"></path>
     </g> 
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import { angle, distance } from "@/utils";
 
 export default {
 	name: "Person",
     props: ['metadata', 'isself'],
     data() {
-        return {dragging: false};
+        return { dragging: false };
     },
     computed: {
+        facePosition() {
+            return {
+                x: this.metadata.x + Math.cos(this.metadata.angle) * 10,
+                y: this.metadata.y + Math.sin(this.metadata.angle) * 10
+            }
+        },
 		...mapGetters(['audioContext'])
     },
     mounted() {
@@ -36,6 +47,7 @@ export default {
     methods: {
         connectAudioSource(track) {
             if(!this.isself) {
+                //TODO: Spatialize the audio
                 let stream = new MediaStream();
                 stream.addTrack(track);
 
@@ -56,6 +68,12 @@ export default {
             pt.y = e.clientY;
             
             var cursorpt =  pt.matrixTransform(svg.getScreenCTM().inverse());
+
+            let lookingAngle = angle(this.metadata, cursorpt);
+            if(this.angle != Math.round(lookingAngle*10)/10) {
+                this.$store.dispatch('updateDirection', Math.round(lookingAngle*10)/10);
+            }
+            
             
             if(leftMouseButtonOnlyDown && this.dragging == true) {
                 this.$store.dispatch('updatePosition', {

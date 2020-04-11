@@ -25,3 +25,13 @@ export const updatePosition = ({ commit, dispatch }, point) => {
 export const recievePosition = ({ commit }, { message, peer_id }) => {
 	commit('setPosition', {point: message, peer_id});
 }
+
+
+export const updateDirection = ({ commit, dispatch }, angle) => {
+	dispatch('sendMessage', { message: { type: 'recieveDirection', angle }});
+	commit('setDirection', {angle});
+}
+
+export const recieveDirection = ({ commit, dispatch }, { message, peer_id }) => {
+	commit('setDirection', {angle: message.angle, peer_id});
+}
