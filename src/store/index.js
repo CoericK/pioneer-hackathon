@@ -9,15 +9,17 @@ import * as actionsWebRTC from './actions-webrtc'
 
 import { createPerson } from '@/utils.js'
 
+import { randomColor } from 'randomcolor'
+
 Vue.use(Vuex)
 
 const state = {
     audioContext: new AudioContext(),
-    
+
 	connected: false,
 	groupID: '',
 
-	self: createPerson(),
+	self: createPerson({ color: randomColor() }),
 
 	peers: {}
 }

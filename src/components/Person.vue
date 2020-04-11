@@ -14,7 +14,7 @@
         </g>
 
         <g class="player" @mousedown="startDrag">
-            <circle  :cx="metadata.x" :cy="metadata.y" r="20" fill="#00FF00" stroke="#000000" stroke-width="3"></circle>
+            <circle  :cx="metadata.x" :cy="metadata.y" r="20" :fill="metadata.color" stroke="#000000" stroke-width="3"></circle>
             <!--<circle :cx="facePosition.x" :cy="facePosition.y" r="10" fill="rgba(0,0,0,0.3)"></circle>-->
             
             <g class="face">

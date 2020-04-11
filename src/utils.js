@@ -2,6 +2,7 @@
 export const createPerson = (data) => {
     let out =  Object.assign({
         name: '',
+        color: '#CCCCCC',
         tracks: {
             video: null,
             audio: null,
