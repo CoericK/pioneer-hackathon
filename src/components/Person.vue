@@ -1,10 +1,24 @@
 <template>
-    <g @mousedown="startDrag">
-	    <circle  :cx="metadata.x" :cy="metadata.y" r="20" fill="#00FF00" stroke="#000000" stroke-width="3"></circle>
-        <!--<circle :cx="facePosition.x" :cy="facePosition.y" r="10" fill="rgba(0,0,0,0.3)"></circle>-->
-        <circle :cx="facePosition.x-4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
-        <circle :cx="facePosition.x+4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
-        <path :d="`M ${facePosition.x-4} ${facePosition.y+4} l 8 0`" stroke="#000000" stroke-width="2"></path>
+    <g>
+        <g @mousedown="startDrag">
+            <circle  :cx="metadata.x" :cy="metadata.y" r="20" fill="#00FF00" stroke="#000000" stroke-width="3"></circle>
+            <!--<circle :cx="facePosition.x" :cy="facePosition.y" r="10" fill="rgba(0,0,0,0.3)"></circle>-->
+            <circle :cx="facePosition.x-4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
+            <circle :cx="facePosition.x+4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
+            <path :d="`M ${facePosition.x-4} ${facePosition.y+4} l 8 0`" stroke="#000000" stroke-width="2"></path>
+        </g
+    
+        <!--<circle v-if="pointer != undefined" :cx="pointer.x" :cy="pointer.y" r="10"></circle>-->
+
+        <g v-if="pointer != undefined" :transform="`translate(${metadata.x}, ${metadata.y})`">
+            <g :transform="`rotate(${pointer.angle*180/Math.PI+90}) translate(-10, -43)`">
+                <g>
+                <svg  width="20" height="20" viewBox="0 0 70 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M28.6695 4.41465L1.41385 62.1706C-1.39872 68.1306 5.0533 74.7979 11.3108 72.7302C18.9427 70.2082 27.7074 68 35 68C42.2926 68 51.0573 70.2082 58.6892 72.7302C64.9467 74.7979 71.3987 68.1306 68.5861 62.1706L41.3305 4.41464C38.8057 -0.935455 31.1943 -0.935448 28.6695 4.41465Z" fill="black"/>
+                </svg>
+                </g>
+            </g>
+        </g>
     </g> 
 </template>
 
@@ -16,7 +30,7 @@ export default {
 	name: "Person",
     props: ['metadata', 'isself'],
     data() {
-        return { dragging: false };
+        return { dragging: false, pointer: null };
     },
     computed: {
         facePosition() {
@@ -72,6 +86,18 @@ export default {
             let lookingAngle = angle(this.metadata, cursorpt);
             if(this.angle != Math.round(lookingAngle*10)/10) {
                 this.$store.dispatch('updateDirection', Math.round(lookingAngle*10)/10);
+            }
+
+            let dist = distance(this.metadata, cursorpt);
+            if(dist < 100) {
+                this.pointer = {
+                    x: this.metadata.x + Math.cos(lookingAngle) * 30,
+                    y: this.metadata.y + Math.sin(lookingAngle) * 30,
+                    distance: 30,
+                    angle: lookingAngle
+                }
+            } else {
+                this.pointer = null;
             }
             
             
