@@ -89,7 +89,7 @@ export default {
             }
 
             let dist = distance(this.metadata, cursorpt);
-            if(dist < 100) {
+            if(dist < 140 && dist > 24) {
                 this.pointer = {
                     x: this.metadata.x + Math.cos(lookingAngle) * 30,
                     y: this.metadata.y + Math.sin(lookingAngle) * 30,
