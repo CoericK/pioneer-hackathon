@@ -4,7 +4,7 @@
 			<!-- each user will be displayed as a circle on screen -->
 			<!-- this is just an example circle in the center -->
 			<!--<circle cx="0" cy="0" r="20" fill="#00FF00" stroke="#000000" stroke-width="3"></circle>-->
-			<Person :metadata="getSelf" />
+			<Person :metadata="getSelf" :notrack="true" />
 
 			<Person v-for="peer in getPeers" :metadata="peer" />
 		</svg>

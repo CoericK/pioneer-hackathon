@@ -10,3 +10,7 @@ export const getPeers = state => {
 export const isConnected = state => {
 	return state.connected;
 }
+
+export const audioContext = state => {
+    return state.audioContext;
+}

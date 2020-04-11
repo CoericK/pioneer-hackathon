@@ -155,7 +155,7 @@ export const addPeer = ({ state, commit, dispatch }, config) => {
 		}
 	}
 
-	peer_connection.onaddtrack = function(event) {
+	peer_connection.ontrack = function(event) {
 		console.log(`Adding ${event.track.kind} track with label ${event.track.label}`);
 
 		commit('addTrackToPeer', {
@@ -182,7 +182,9 @@ export const addPeer = ({ state, commit, dispatch }, config) => {
 	/* Add our local stream */
 	//peer_connection.addStream(local_media_stream);
 
+    //console.log('SELF AUDIO', state.self.tracks.audio);
 	if(state.self.tracks.audio != undefined) {
+        console.log('SENDING AUDIO TRACK')
 		peer_connection.addTrack(state.self.tracks.audio);
 	}
 
