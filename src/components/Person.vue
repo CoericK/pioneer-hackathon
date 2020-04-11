@@ -1,22 +1,24 @@
 <template>
-    <g>
-        <g @mousedown="startDrag">
+    <g :class="{ self: isself }">
+        <g class="pointer" v-if="pointer != undefined" :transform="`translate(${metadata.x}, ${metadata.y})`">
+            <g :transform="`rotate(${pointer.angle*180/Math.PI+90})`">
+                <path v-if="metadata.pointer != undefined" :d="`M0 0 l0 ${-pointer.distance}`" stroke="#000000" stroke-width="3" stroke-dasharray="7 7"></path>
+                <g :transform="`translate(-10, ${-pointer.distance})`">
+                    <svg @mousedown="startDragPointer" width="20" height="20" viewBox="0 0 70 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M28.6695 4.41465L1.41385 62.1706C-1.39872 68.1306 5.0533 74.7979 11.3108 72.7302C18.9427 70.2082 27.7074 68 35 68C42.2926 68 51.0573 70.2082 58.6892 72.7302C64.9467 74.7979 71.3987 68.1306 68.5861 62.1706L41.3305 4.41464C38.8057 -0.935455 31.1943 -0.935448 28.6695 4.41465Z" fill="black"/>
+                    </svg>
+                </g>
+            </g>
+        </g>
+
+        <g class="player" @mousedown="startDrag">
             <circle  :cx="metadata.x" :cy="metadata.y" r="20" fill="#00FF00" stroke="#000000" stroke-width="3"></circle>
             <!--<circle :cx="facePosition.x" :cy="facePosition.y" r="10" fill="rgba(0,0,0,0.3)"></circle>-->
-            <circle :cx="facePosition.x-4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
-            <circle :cx="facePosition.x+4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
-            <path :d="`M ${facePosition.x-4} ${facePosition.y+4} l 8 0`" stroke="#000000" stroke-width="2"></path>
-        </g
-    
-        <!--<circle v-if="pointer != undefined" :cx="pointer.x" :cy="pointer.y" r="10"></circle>-->
-
-        <g v-if="pointer != undefined" :transform="`translate(${metadata.x}, ${metadata.y})`">
-            <g :transform="`rotate(${pointer.angle*180/Math.PI+90}) translate(-10, -43)`">
-                <g>
-                <svg  width="20" height="20" viewBox="0 0 70 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M28.6695 4.41465L1.41385 62.1706C-1.39872 68.1306 5.0533 74.7979 11.3108 72.7302C18.9427 70.2082 27.7074 68 35 68C42.2926 68 51.0573 70.2082 58.6892 72.7302C64.9467 74.7979 71.3987 68.1306 68.5861 62.1706L41.3305 4.41464C38.8057 -0.935455 31.1943 -0.935448 28.6695 4.41465Z" fill="black"/>
-                </svg>
-                </g>
+            
+            <g class="face">
+                <circle :cx="facePosition.x-4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
+                <circle :cx="facePosition.x+4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
+                <path :d="`M ${facePosition.x-4} ${facePosition.y+4} l 8 0`" stroke="#000000" stroke-width="2"></path>
             </g>
         </g>
     </g> 
@@ -30,9 +32,12 @@ export default {
 	name: "Person",
     props: ['metadata', 'isself'],
     data() {
-        return { dragging: false, pointer: null };
+        return { dragging: false, localPointer: null, draggingPointer: false };
     },
     computed: {
+        pointer() {
+            return this.metadata.pointer || this.localPointer;
+        },
         facePosition() {
             return {
                 x: this.metadata.x + Math.cos(this.metadata.angle) * 10,
@@ -89,19 +94,19 @@ export default {
             }
 
             let dist = distance(this.metadata, cursorpt);
-            if(dist < 140 && dist > 24) {
-                this.pointer = {
-                    x: this.metadata.x + Math.cos(lookingAngle) * 30,
-                    y: this.metadata.y + Math.sin(lookingAngle) * 30,
-                    distance: 30,
+            if(dist < 140 && dist > 21) {
+                this.localPointer = {
+                    //x: this.metadata.x + Math.cos(lookingAngle) * 30,
+                    //y: this.metadata.y + Math.sin(lookingAngle) * 30,
+                    distance: 43,
                     angle: lookingAngle
                 }
             } else {
-                this.pointer = null;
+                this.localPointer = null;
             }
             
-            
-            if(leftMouseButtonOnlyDown && this.dragging == true) {
+            // drag player
+            if(leftMouseButtonOnlyDown && this.dragging) {
                 this.$store.dispatch('updatePosition', {
                     x: cursorpt.x,
                     y: cursorpt.y
@@ -109,12 +114,34 @@ export default {
             } else {
                 this.dragging = false;
             }
+
+            // drag pointer
+            if(leftMouseButtonOnlyDown && this.draggingPointer) {
+                this.$store.dispatch('updatePointer', {
+                    distance: dist,
+                    angle: lookingAngle
+                });
+            } else if(this.draggingPointer) {
+                this.draggingPointer = false;
+
+                this.$store.dispatch('updatePointer', null);
+            }
         },
         startDrag() {
             if(this.isself) {
                 this.dragging = true;
             }
+        },
+        startDragPointer() {
+            if(this.isself) {
+                this.draggingPointer = true;
+            }
         }
     }
 };
 </script>
+
+<style>
+    .self .player { cursor: move }
+    .self .pointer { cursor: move }
+</style>

@@ -32,6 +32,16 @@ export const updateDirection = ({ commit, dispatch }, angle) => {
 	commit('setDirection', {angle});
 }
 
-export const recieveDirection = ({ commit, dispatch }, { message, peer_id }) => {
+export const recieveDirection = ({ commit }, { message, peer_id }) => {
 	commit('setDirection', {angle: message.angle, peer_id});
+}
+
+
+export const updatePointer = ({ commit, dispatch }, pointer) => {
+	dispatch('sendMessage', { message: { type: 'recievePointer', pointer }});
+	commit('setPointer', { pointer });
+}
+
+export const recievePointer = ({ commit }, {message, peer_id }) => {
+	commit('setPointer', { pointer: message.pointer, peer_id });
 }

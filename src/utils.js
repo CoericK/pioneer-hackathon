@@ -6,6 +6,7 @@ export const createPerson = (data) => {
             audio: null,
         },
         angle: 0,
+        pointer: null,
         x: 0,
         y: 0,
     }, data);

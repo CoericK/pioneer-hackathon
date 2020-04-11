@@ -62,5 +62,15 @@ export default {
             // update direction of self
             Vue.set(state.self, 'angle', angle);
         }
+    },
+
+    setPointer(state, {pointer, peer_id}) {
+        if(peer_id) {
+            // update pointer of peer
+            Vue.set(state.peers[peer_id], 'pointer', pointer);
+        } else {
+            // update pointer of self
+            Vue.set(state.self, 'pointer', pointer);
+        }
     }
 }
