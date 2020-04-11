@@ -1,5 +1,7 @@
 <template>
     <g :class="{ self: isself }">
+        <text class="name" text-anchor="middle" :x="metadata.x" :y="metadata.y+34">{{ metadata.name }}</text>
+
         <g class="pointer" v-if="pointer != undefined" :transform="`translate(${metadata.x}, ${metadata.y})`">
             <g :transform="`rotate(${pointer.angle*180/Math.PI+90})`">
                 <path v-if="metadata.pointer != undefined" :d="`M0 0 l0 ${-pointer.distance}`" stroke="#000000" stroke-width="3" stroke-dasharray="7 7"></path>
@@ -144,4 +146,10 @@ export default {
 <style>
     .self .player { cursor: move }
     .self .pointer { cursor: move }
+
+    .name {
+        font: 12px sans-serif;
+        user-select:none;
+        text-align: center;
+    }
 </style>

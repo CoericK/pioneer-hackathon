@@ -40,7 +40,17 @@ export default {
 
 	addTrackToPeer(state, {peer_id, track}) {
 		Vue.set(state.peers[peer_id].tracks, track.kind, track);
-	},
+    },
+    
+    setName(state, {name, peer_id}) {
+        if(peer_id) {
+			// update name of peer
+			Vue.set(state.peers[peer_id], 'name', name);
+		} else {
+			// update name of self
+			Vue.set(state.self, 'name', name);
+		}
+    },
 
 	setPosition(state, {point, peer_id}) {
 		if(peer_id) {

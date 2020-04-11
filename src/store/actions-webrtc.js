@@ -41,10 +41,10 @@ export const requestVideoTrack = ({ state, commit }) => {
 }
 
 // Connect to group with group ID
-export const connectGroup = (context, groupID) => {
+export const connectGroup = (context, options) => {
 	signaling_socket = io(SIGNALING_SERVER);
 
-	signaling_socket.on('connect', onConnectGroup.bind(null, context, groupID));
+	signaling_socket.on('connect', onConnectGroup.bind(null, context, options));
 	signaling_socket.on('addPeer', onAddPeer.bind(null, context));
 	signaling_socket.on('removePeer', onRemovePeer.bind(null, context));
 
@@ -64,7 +64,7 @@ export const connectGroup = (context, groupID) => {
 	
 }
 
-function onConnectGroup({ dispatch, commit }, groupID) {
+function onConnectGroup({ dispatch, commit }, { groupID, name }) {
     console.log("Connected to signaling server");
     
     dispatch('requestAudioTrack');
@@ -73,6 +73,7 @@ function onConnectGroup({ dispatch, commit }, groupID) {
     signaling_socket.emit('join', { 'channel': groupID });
 
     commit('setGroupID', groupID);
+    dispatch('updateName', name);
 }
 
 function onAddPeer({ dispatch }, config) {

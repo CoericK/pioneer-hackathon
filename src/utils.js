@@ -1,6 +1,7 @@
 
 export const createPerson = (data) => {
     let out =  Object.assign({
+        name: '',
         tracks: {
             video: null,
             audio: null,

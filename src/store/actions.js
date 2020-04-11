@@ -16,6 +16,16 @@ export const sendMessage = ({ state }, { message, peer_id }) => {
 }
 
 
+export const updateName = ({ commit, dispatch }, name) => {
+	dispatch('sendMessage', { message: { type: 'recieveName', name }});
+
+	commit('setName', { name });
+}
+
+export const recieveName = ({ commit }, { message, peer_id }) => {
+	commit('setName', { name: message.name, peer_id });
+}
+
 export const updatePosition = ({ commit, dispatch }, point) => {
 	dispatch('sendMessage', { message: { type: 'recievePosition', ...point } } );
 
@@ -27,6 +37,7 @@ export const recievePosition = ({ commit }, { message, peer_id }) => {
 }
 
 
+
 export const updateDirection = ({ commit, dispatch }, angle) => {
 	dispatch('sendMessage', { message: { type: 'recieveDirection', angle }});
 	commit('setDirection', {angle});
@@ -35,6 +46,7 @@ export const updateDirection = ({ commit, dispatch }, angle) => {
 export const recieveDirection = ({ commit }, { message, peer_id }) => {
 	commit('setDirection', {angle: message.angle, peer_id});
 }
+
 
 
 export const updatePointer = ({ commit, dispatch }, pointer) => {
