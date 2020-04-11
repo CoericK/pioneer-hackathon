@@ -1,12 +1,18 @@
 <template>
 	<div id="app">
-		Hello World!
+		<Connect />
 	</div>
 </template>
 
 <script>
+import Connect from "@/components/Connect";
+
 export default {
-	name: "App",
+    name: "App",
+    
+    components: {
+		Connect
+	}
 };
 </script>
 

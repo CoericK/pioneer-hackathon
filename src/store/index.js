@@ -5,15 +5,24 @@ import * as getters from './getters'
 import * as actions from './actions'
 import mutations from './mutations'
 
+import * as actionsWebRTC from './actions-webrtc'
+
+import { createPerson } from '@/utils.js'
+
 Vue.use(Vuex)
 
 const state = {
-    // state goes here
+	connected: false,
+	groupID: '',
+
+	self: createPerson(),
+
+	peers: {}
 }
 
 export default new Vuex.Store({
 	state,
 	getters,
-	actions,
+	actions: Object.assign({}, actions, actionsWebRTC),
 	mutations,
 })
