@@ -1,0 +1,30 @@
+{
+	"author": "",
+	"dependencies": {
+		"marked": "^0.7.0",
+		"register-service-worker": "^1.6.2",
+		"socket.io-client": "^2.3.0",
+		"vue": "^2.6.10",
+		"vuex": "^3.1.1"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.6.2",
+		"@babel/preset-env": "^7.6.2",
+		"@vue/cli-plugin-babel": "^3.12.0",
+		"@vue/cli-plugin-eslint": "^3.10.0",
+		"@vue/cli-plugin-pwa": "^3.10.0",
+		"@vue/cli-service": "^3.10.0",
+		"@vue/eslint-config-prettier": "^4.0.1",
+		"babel-core": "7.0.0-bridge.0",
+		"babel-jest": "^24.9.0",
+		"cross-env": "^6.0.3",
+		"lint-staged": "^8.2.1",
+		"vue-template-compiler": "^2.6.10"
+	},
+	"name": "spatial",
+	"scripts": {
+		"build": "cross-env BABEL_ENV=dev vue-cli-service build",
+		"serve": "cross-env BABEL_ENV=dev vue-cli-service serve"
+	},
+	"version": "0.1.0"
+}
