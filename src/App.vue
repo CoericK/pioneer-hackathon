@@ -1,16 +1,26 @@
 <template>
 	<div id="app">
-		<Connect />
+		<!-- connection screen -->
+		<Connect v-if="!isConnected"/>
+
+		<!-- show once connected -->
+		<Room v-if="isConnected"/>
 	</div>
 </template>
 
 <script>
+import Room from "@/components/Room";
 import Connect from "@/components/Connect";
 
+import { mapGetters } from "vuex";
+
 export default {
-    name: "App",
-    
-    components: {
+	name: "App",
+	computed: {
+		...mapGetters(['isConnected'])
+	},
+	components: {
+		Room,
 		Connect
 	}
 };
