@@ -1,12 +1,9 @@
 <template>
 	<div>
-		<svg id="room" :viewBox="viewBoxString">
-			<!-- each user will be displayed as a circle on screen -->
-			<!-- this is just an example circle in the center -->
-			<!--<circle cx="0" cy="0" r="20" fill="#00FF00" stroke="#000000" stroke-width="3"></circle>-->
-			<Person :metadata="getSelf" :notrack="true" />
+		<svg id="room" :viewBox="viewBoxString">>
+            <Person v-for="peer in getPeers" :metadata="peer" />
 
-			<Person v-for="peer in getPeers" :metadata="peer" />
+			<Person :metadata="getSelf" :isself="true" />
 		</svg>
 		<div style="position:absolute; top:0;left:0;">
 			<!-- debug -->
@@ -36,7 +33,7 @@ export default {
 	},
 	mounted() {
 		window.addEventListener('resize', this.getWindowSize);
-		window.addEventListener('mousedown', this.movePlayer);
+		//window.addEventListener('mousedown', this.movePlayer);
 
 		this.getWindowSize();
 	},
@@ -45,7 +42,7 @@ export default {
 			this.width = document.documentElement.clientWidth;
 			this.height = document.documentElement.clientHeight;
 		},
-		movePlayer(evt) {
+		/*movePlayer(evt) {
 			let svg = document.querySelector('#room');
 
 			var pt = svg.createSVGPoint();
@@ -58,7 +55,7 @@ export default {
 				x: cursorpt.x,
 				y: cursorpt.y
 			});
-		}
+		}*/
 	},
 	components: {
 		Person
