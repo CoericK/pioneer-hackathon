@@ -1,5 +1,5 @@
 <template>
-    <div id="emotePanel" style="width: 400px; height: 200px; left: 0; bottom: 0; background-color: gray; position: absolute">
+    <div id="emotePanel">
         <button @click="handleClick('😍')">😍</button>
         <button @click="handleClick('🙌')">🙌</button>
         <button @click="handleClick('♥️')">♥️</button>
@@ -40,4 +40,26 @@ export default {
     }
 };
 </script>
+
+<style>
+    #emotePanel {
+        padding: 5px 20px; left: 0; bottom: 50px; background-color: #F9F9F9; position: absolute;
+        border: 1px solid #999999;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    #emotePanel button {
+        outline: none;
+        border: none;
+        background: none;
+        font-size: 40px;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 50px;
+    }
+    #emotePanel button:hover {
+        background: #EEEEEE;
+    }
+</style>
 
