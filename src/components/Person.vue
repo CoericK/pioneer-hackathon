@@ -72,18 +72,18 @@ export default {
         },
         pannerPosition() {
             return {
-                x: this.metadata.x/20,
+                x: this.metadata.x/5,
                 y: 0,
-                z: this.metadata.y/20
+                z: this.metadata.y/5
             }
         },
         listenerPositionOrientation() {
             let rad = this.metadata.angle;
 
             return {
-                x: this.metadata.x/20,
+                x: this.metadata.x/5,
                 y: 0,
-                z: this.metadata.y/20,
+                z: this.metadata.y/5,
                 v1: Math.cos(rad),
                 v2: 0,
                 v3: Math.sin(rad),
