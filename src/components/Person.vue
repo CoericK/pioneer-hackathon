@@ -47,6 +47,7 @@ export default {
             draggingPointer: false,
 
             gainNode: null,
+            pannerNode: null,
             audioMeter: 0,
         };
     },
@@ -66,6 +67,28 @@ export default {
         },
         isVIP() {
             return this.metadata == this.getVIP;
+        },
+        pannerPosition() {
+            return {
+                x: this.metadata.x/20,
+                y: 0,
+                z: this.metadata.y/20
+            }
+        },
+        listenerPositionOrientation() {
+            let rad = this.metadata.angle;
+
+            return {
+                x: this.metadata.x/20,
+                y: 0,
+                z: this.metadata.y/20,
+                v1: Math.cos(rad),
+                v2: 0,
+                v3: Math.sin(rad),
+                v4: 0,
+                v5: 1,
+                v6: 0
+            }
         }
     },
     mounted() {
@@ -84,11 +107,28 @@ export default {
                 }
             }
         },
-        "volume": {
+        /*"volume": {
             immediate: true,
             handler (val, oldVal) {
                 if(this.gainNode != undefined) {
                     this.gainNode.gain.value = val;
+                }
+            }
+        },*/
+        "pannerPosition": {
+            immediate: true,
+            handler(pos) {
+                if(!this.isself && this.pannerNode) {
+                    this.pannerNode.setPosition(pos.x, pos.y, pos.z);
+                }
+            }
+        },
+        "listenerPositionOrientation": {
+            immediate: true,
+            handler(p) {
+                if(this.isself) {
+                    this.audioContext.listener.setPosition(p.x, p.y, p.z);
+                    this.audioContext.listener.setOrientation(p.v1, p.v2, p.v3, p.v4, p.v5, p.v6);
                 }
             }
         }
@@ -106,7 +146,7 @@ export default {
 
             source.connect(meter);
             
-            if(!this.isself) {
+            /*if(!this.isself) {
                 //var panner = audioContext.createPanner()
                 //panner.panningModel = "HRTF"
                 
@@ -117,6 +157,31 @@ export default {
 
                 source.connect(gainNode);
                 gainNode.connect(this.audioContext.destination);
+            }*/
+
+            if(!this.isself) {
+                this.pannerNode = this.audioContext.createPanner()
+                this.pannerNode.panningModel = "HRTF"
+
+                this.pannerNode.distanceModel = 'inverse';
+                this.pannerNode.refDistance = 1;
+                this.pannerNode.maxDistance = 10000;
+                this.pannerNode.rolloffFactor = 1;
+                this.pannerNode.coneInnerAngle = 360;
+                this.pannerNode.coneOuterAngle = 0;
+                this.pannerNode.coneOuterGain = 0;
+                
+                // Set the 3D position (x, y, z).
+                this.pannerNode.setPosition(this.pannerPosition.x, 0, this.pannerPosition.y);
+                //var gainNode = this.audioContext.createGain();
+                //this.gainNode = gainNode;
+
+                source.connect(this.pannerNode);
+                this.pannerNode.connect(this.audioContext.destination);
+            } else {
+                let p = this.listenerPositionOrientation;
+                this.audioContext.listener.setPosition(p.x, p.y, p.z);
+                this.audioContext.listener.setOrientation(p.v1, p.v2, p.v3, p.v4, p.v5, p.v6);
             }
         },
         mouseMove(e) {
