@@ -1,9 +1,11 @@
 <template>
 	<div>
 		<svg id="room" :viewBox="viewBoxString">
+            <!-- room image -->
             <image href="@/../static/room.png" width="800" x="-400" y="-250" style="opacity: 0.5"></image>
+            
+            <!-- people -->
             <Person v-for="peer in getPeers" :metadata="peer" />
-
 			<Person :metadata="getSelf" :isself="true" />
 		</svg>
 		<div style="position:absolute; top:0;left:0;">
@@ -33,9 +35,8 @@ export default {
 		}
 	},
 	mounted() {
-		window.addEventListener('resize', this.getWindowSize);
-		//window.addEventListener('mousedown', this.movePlayer);
-
+        window.addEventListener('resize', this.getWindowSize);
+        
 		this.getWindowSize();
 	},
 	methods: {
@@ -43,20 +44,6 @@ export default {
 			this.width = document.documentElement.clientWidth;
 			this.height = document.documentElement.clientHeight;
 		},
-		/*movePlayer(evt) {
-			let svg = document.querySelector('#room');
-
-			var pt = svg.createSVGPoint();
-			pt.x = evt.clientX;
-			pt.y = evt.clientY;
-	
-			var cursorpt =  pt.matrixTransform(svg.getScreenCTM().inverse());
-
-			this.$store.dispatch('updatePosition', {
-				x: cursorpt.x,
-				y: cursorpt.y
-			});
-		}*/
 	},
 	components: {
 		Person
