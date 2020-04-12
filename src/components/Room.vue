@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<svg id="room" :viewBox="viewBoxString">
-            <image href="@/../static/room.png" width="800" x="-400" y="-250"></image>
+            <image href="@/../static/room.png" width="800" x="-400" y="-250" style="opacity: 0.5"></image>
             <Person v-for="peer in getPeers" :metadata="peer" />
 
 			<Person :metadata="getSelf" :isself="true" />

@@ -16,6 +16,14 @@ export const sendMessage = ({ state }, { message, peer_id }) => {
 }
 
 
+export const initPeer = ({ state, dispatch }, peer_id) => {
+	dispatch('sendMessage', { message: { type: 'recieveName', name: state.self.name }, peer_id });
+	dispatch('sendMessage', { message: { type: 'recieveColor', color: state.self.color }, peer_id });
+	dispatch('sendMessage', { message: { type: 'recievePosition', x: state.self.x, y: state.self.y }, peer_id });
+	dispatch('sendMessage', { message: { type: 'recieveDirection', angle: state.self.angle }, peer_id });
+}
+
+
 export const updateName = ({ commit, dispatch }, name) => {
 	dispatch('sendMessage', { message: { type: 'recieveName', name }});
 
@@ -56,4 +64,14 @@ export const updatePointer = ({ commit, dispatch }, pointer) => {
 
 export const recievePointer = ({ commit }, {message, peer_id }) => {
 	commit('setPointer', { pointer: message.pointer, peer_id });
+}
+
+
+export const updateColor = ({ commit, dispatch }, color) => {
+	dispatch('sendMessage', { message: { type: 'recieveColor', color }});
+	commit('setColor', { color });
+}
+
+export const recieveColor = ({ commit }, { message, peer_id }) => {
+	commit('setColor', { color: message.color, peer_id });
 }

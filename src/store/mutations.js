@@ -33,7 +33,7 @@ export default {
 
 	removePeer(state, peer_id) {
 		if (peer_id in state.peers) {
-			peers[peer_id].connection.close();
+			state.peers[peer_id].connection.close();
 			Vue.delete(state.peers, peer_id);
 		}
 	},
@@ -81,6 +81,16 @@ export default {
         } else {
             // update pointer of self
             Vue.set(state.self, 'pointer', pointer);
+        }
+    },
+
+    setColor(state, {color, peer_id}) {
+        if(peer_id) {
+            // update color of peer
+            Vue.set(state.peers[peer_id], 'color', color);
+        } else {
+            // update color of self
+            Vue.set(state.self, 'color', color);
         }
     }
 }

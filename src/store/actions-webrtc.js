@@ -84,7 +84,7 @@ function onRemovePeer({ commit }, config) {
     console.log('Signaling server said to remove peer:', config);
     var peer_id = config.peer_id;
 
-    delete peers[peer_id];
+    //peers[peer_id] = undefined
 
     commit('removePeer', peer_id);
 }
@@ -140,7 +140,7 @@ export const addPeer = ({ state, commit, dispatch }, config) => {
 	commit('addPeer', {
 		id: peer_id,
 		data: peerData
-	});
+    });
 
 	peers[peer_id] = peerData;
 
@@ -196,7 +196,7 @@ export const addPeer = ({ state, commit, dispatch }, config) => {
 	peer_connection.ondatachannel = function(event) {
 		var channel = event.channel;
 		channel.onopen = function(event) {
-			// do nothing?
+            dispatch('initPeer', peer_id);
 		}
 		channel.onmessage = function(event) {
 			let message = JSON.parse(event.data);
