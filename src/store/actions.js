@@ -140,11 +140,10 @@ export const recievePlaylist = ({ commit, getters, state }, { message, peer_id }
 	
 }
 export const updateEmote = ({ commit, dispatch }, emote) => {
-	dispatch('sendMessage', { message: { type: 'receiveEmote', ...emote } } );
-
+	dispatch('sendMessage', { message: { type: 'receiveEmote', emote } } );
 	commit('setEmote', {emote});
 }
 
 export const receiveEmote = ({ commit }, { message, peer_id }) => {
-	commit('setEmote', {emote: message, peer_id});
+	commit('setEmote', {emote: message.emote});
 }
