@@ -17,9 +17,13 @@ export const sendMessage = ({ state }, { message, peer_id }) => {
 
 
 export const initPeer = ({ state, dispatch }, peer_id) => {
+	console.log('name');
 	dispatch('sendMessage', { message: { type: 'recieveName', name: state.self.name }, peer_id });
+	console.log('color');
 	dispatch('sendMessage', { message: { type: 'recieveColor', color: state.self.color }, peer_id });
+	console.log('position');
 	dispatch('sendMessage', { message: { type: 'recievePosition', x: state.self.x, y: state.self.y }, peer_id });
+	console.log('direction');
 	dispatch('sendMessage', { message: { type: 'recieveDirection', angle: state.self.angle }, peer_id });
 }
 

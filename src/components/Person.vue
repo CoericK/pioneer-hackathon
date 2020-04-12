@@ -34,9 +34,16 @@ export default {
 	name: "Person",
     props: ['metadata', 'isself'],
     data() {
-        return { dragging: false, localPointer: null, draggingPointer: false };
+        return {
+            dragging: false,
+            localPointer: null,
+            draggingPointer: false,
+
+            gainNode: null,
+        };
     },
     computed: {
+        ...mapGetters(['audioContext', 'getSelf']),
         pointer() {
             return this.metadata.pointer || this.localPointer;
         },
@@ -46,7 +53,9 @@ export default {
                 y: this.metadata.y + Math.sin(this.metadata.angle) * 10
             }
         },
-		...mapGetters(['audioContext'])
+		volume() {
+            return Math.max(Math.min((340 - distance(this.getSelf, this.metadata))/250, 1), 0);
+        }
     },
     mounted() {
         if(this.isself) {
@@ -64,6 +73,14 @@ export default {
                 }
             }
         },
+        "volume": {
+            immediate: true,
+            handler (val, oldVal) {
+                if(this.gainNode != undefined) {
+                    this.gainNode.gain.value = val;
+                }
+            }
+        }
     },
     methods: {
         connectAudioSource(track) {
@@ -74,7 +91,12 @@ export default {
 
                 var source = this.audioContext.createMediaStreamSource(stream);
 
-                source.connect(this.audioContext.destination);
+                var gainNode = this.audioContext.createGain();
+
+                this.gainNode = gainNode;
+
+                source.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
             }
         },
         mouseMove(e) {

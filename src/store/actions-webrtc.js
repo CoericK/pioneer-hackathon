@@ -1,5 +1,8 @@
 import io from 'socket.io-client';
 
+// polyfill for `navigator.mediaDevices.getUserMedia`
+import 'md-gum-polyfill';
+
 /** CONFIG **/
 var SIGNALING_SERVER = "https://cozyroom-signaling.herokuapp.com/";
 
@@ -73,7 +76,7 @@ function onConnectGroup({ dispatch, commit }, { groupID, name }) {
     signaling_socket.emit('join', { 'channel': groupID });
 
     commit('setGroupID', groupID);
-    dispatch('updateName', name);
+    //dispatch('updateName', name);
 }
 
 function onAddPeer({ dispatch }, config) {

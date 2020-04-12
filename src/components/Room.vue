@@ -63,3 +63,9 @@ export default {
 	}
 };
 </script>
+
+<style>
+    .room > image {
+        user-select: none;
+    }
+</style>

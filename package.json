@@ -2,6 +2,7 @@
 	"author": "",
 	"dependencies": {
 		"marked": "^0.7.0",
+		"md-gum-polyfill": "^1.0.0",
 		"randomcolor": "^0.5.4",
 		"register-service-worker": "^1.6.2",
 		"socket.io-client": "^2.3.0",
