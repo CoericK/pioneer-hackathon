@@ -107,6 +107,11 @@ export default {
             source.connect(meter);
             
             if(!this.isself) {
+                //var panner = audioContext.createPanner()
+                //panner.panningModel = "HRTF"
+                
+                // Set the 3D position (x, y, z).
+                //panner.setPosition(this.metadata.x, 0, this.metadata.y)
                 var gainNode = this.audioContext.createGain();
                 this.gainNode = gainNode;
 

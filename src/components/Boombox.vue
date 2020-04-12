@@ -23,7 +23,7 @@
                 </div>
                 <div class="playlist">
                     <div v-for="item in getBoombox.playlist" :key="item.video_id" :class="{ 'playlist-item':true, playing: item.video_id == getBoombox.current }" >
-                        {{ item.title }}
+                        {{ item.title || item.video_id }}
                         <div class="delete-item" @click="deletePlaylistItem(item.video_id)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
                                 <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/><path d="M0 0h24v24H0z" fill="none"/>
@@ -136,17 +136,17 @@ export default {
             this.urlToAdd = '';
 
             if(video_id != undefined && getVideoFromPlaylist(video_id, this.getBoombox.playlist) == undefined) {
-                getJSON(`https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=${video_id}&format=json`, function(error, response){
+                //getJSON(`https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=${video_id}&format=jsonc`, function(error, response){
 
-                    console.log(error);
+                //    console.log(error);
                     // undefined
 
                     this.$store.dispatch('addPlaylistItem', {
                         video_id,
-                        title: response.title,
-                        thumbnail: response.thumbnail_url
+                //        title: response.title,
+                 //       thumbnail: response.thumbnail_url
                     });
-                }.bind(this));
+                //}.bind(this));
                 
             }
         },

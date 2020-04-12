@@ -24,7 +24,7 @@ const state = {
 	boombox: createObject({
 		playing: false,
 		playlist: [
-			
+			{ title: "My Neighbor Totoro", video_id: "RUnvkHZwDg4" }
 		],
 		current: null
 	}),
