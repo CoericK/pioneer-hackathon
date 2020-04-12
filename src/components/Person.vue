@@ -1,5 +1,6 @@
 <template>
     <g :class="{ self: isself }">
+        
         <text class="name" text-anchor="middle" :x="metadata.x" :y="metadata.y+34">{{ metadata.name }}</text>
 
         <g class="pointer" v-if="pointer != undefined" :transform="`translate(${metadata.x}, ${metadata.y})`">
@@ -17,6 +18,8 @@
             <circle  :cx="metadata.x" :cy="metadata.y" r="20" :fill="metadata.color" stroke="#000000" stroke-width="3"></circle>
             <!--<circle :cx="facePosition.x" :cy="facePosition.y" r="10" fill="rgba(0,0,0,0.3)"></circle>-->
             
+            <text v-if="this.isVIP" class="name" text-anchor="middle" :x="metadata.x" :y="metadata.y+5">VIP</text>
+
             <g class="face">
                 <circle :cx="facePosition.x-4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
                 <circle :cx="facePosition.x+4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
@@ -48,7 +51,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['audioContext', 'getSelf']),
+        ...mapGetters(['audioContext', 'getSelf', 'getVIP']),
         pointer() {
             return this.metadata.pointer || this.localPointer;
         },
@@ -60,6 +63,9 @@ export default {
         },
 		volume() {
             return Math.max(Math.min((340 - distance(this.getSelf, this.metadata))/250, 1), 0);
+        },
+        isVIP() {
+            return this.metadata == this.getVIP;
         }
     },
     mounted() {
@@ -96,7 +102,7 @@ export default {
 
             var meter = audioStreamProcessor(this.audioContext, function() {
                 this.audioMeter = meter.volume;
-            }.bind(this));
+            }.bind(this), { bufferSize: 256, volumeFall: 0.97 });
 
             source.connect(meter);
             

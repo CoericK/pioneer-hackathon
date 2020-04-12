@@ -7,7 +7,7 @@ import mutations from './mutations'
 
 import * as actionsWebRTC from './actions-webrtc'
 
-import { createPerson } from '@/utils.js'
+import { createPerson, createObject } from '@/utils.js'
 
 import { randomColor } from 'randomcolor'
 
@@ -20,6 +20,12 @@ const state = {
 	groupID: '',
 
 	self: createPerson({ color: randomColor() }),
+
+	boombox: createObject({
+		playing: false,
+		playlist: [],
+		current: null
+	}),
 
 	peers: {}
 }

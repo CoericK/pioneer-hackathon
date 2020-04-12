@@ -1,8 +1,9 @@
 
 export const createPerson = (data) => {
-    let out =  Object.assign({
+    return Object.assign({
         name: '',
         color: '#CCCCCC',
+        order: Date.now(),
         tracks: {
             video: null,
             audio: null,
@@ -12,8 +13,14 @@ export const createPerson = (data) => {
         x: 0,
         y: 0,
     }, data);
-    console.log('PERSON', out, data);
-    return out
+}
+
+export const createObject = (data) => {
+    return Object.assign({
+        image: '',
+        x: 0,
+        y: 0
+    }, data);
 }
 
 export const angle = (p1, p2) => {

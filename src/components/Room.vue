@@ -3,6 +3,8 @@
 		<svg id="room" :viewBox="viewBoxString">
             <!-- room image -->
             <image href="@/../static/room.png" width="800" x="-400" y="-250" style="opacity: 0.5"></image>
+
+			<Boombox :x="-340" :y="-210" />
             
             <!-- people -->
             <Person v-for="peer in getPeers" :metadata="peer" />
@@ -17,6 +19,7 @@
 
 <script>
 import Person from "@/components/Person";
+import Boombox from "@/components/Boombox";
 import { mapGetters } from "vuex";
 
 export default {
@@ -46,13 +49,14 @@ export default {
 		},
 	},
 	components: {
-		Person
+		Person,
+		Boombox
 	}
 };
 </script>
 
 <style>
     .room > image {
-        user-select: none;
+        pointer-events: none;
     }
 </style>

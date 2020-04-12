@@ -77,6 +77,7 @@ function onConnectGroup({ dispatch, commit }, { groupID, name }) {
 
     commit('setGroupID', groupID);
     dispatch('updateName', name);
+    dispatch('updateOrder', Date.now());
 }
 
 function onAddPeer({ dispatch }, config) {

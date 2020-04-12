@@ -17,14 +17,12 @@ export const sendMessage = ({ state }, { message, peer_id }) => {
 
 
 export const initPeer = ({ state, dispatch }, peer_id) => {
-	console.log('name');
 	dispatch('sendMessage', { message: { type: 'recieveName', name: state.self.name }, peer_id });
-	console.log('color');
 	dispatch('sendMessage', { message: { type: 'recieveColor', color: state.self.color }, peer_id });
-	console.log('position');
 	dispatch('sendMessage', { message: { type: 'recievePosition', x: state.self.x, y: state.self.y }, peer_id });
-	console.log('direction');
 	dispatch('sendMessage', { message: { type: 'recieveDirection', angle: state.self.angle }, peer_id });
+
+	dispatch('sendMessage', { message: { type: 'recieveOrder', order: state.self.order }, peer_id });
 }
 
 
@@ -78,4 +76,13 @@ export const updateColor = ({ commit, dispatch }, color) => {
 
 export const recieveColor = ({ commit }, { message, peer_id }) => {
 	commit('setColor', { color: message.color, peer_id });
+}
+
+
+export const updateOrder = ({ commit, dispatch }, order) => {
+	dispatch('sendMessage', { message: { type: 'recieveOrder', order }});
+	commit('setOrder', { order });
+}
+export const recieveOrder = ({ state, commit }, { message, peer_id }) => {
+	commit('setOrder', { order: message.order, peer_id });
 }

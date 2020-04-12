@@ -92,5 +92,15 @@ export default {
             // update color of self
             Vue.set(state.self, 'color', color);
         }
+    },
+
+    setOrder(state, {order, peer_id}) {
+        if(peer_id) {
+            // update order of peer
+            Vue.set(state.peers[peer_id], 'order', order);
+        } else {
+            // update order of self
+            Vue.set(state.self, 'order', order);
+        }
     }
 }
