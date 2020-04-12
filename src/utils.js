@@ -15,6 +15,7 @@ export const createPerson = (data) => {
         pointer: null,
         x: 0,
         y: 0,
+        emote: ""
     }, data);
 }
 

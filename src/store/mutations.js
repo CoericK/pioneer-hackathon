@@ -118,5 +118,13 @@ export default {
 
 	setPlaylist(state, playlist) {
 		Vue.set(state.boombox, 'playlist', playlist);
+	},
+	
+	setEmote(state, {emote, peer_id}) {
+		if (peer_id) {
+			Vue.set(state.peers[peer_id], 'emote', {emote});
+		} else {
+			Vue.set(state.self, 'emote', {emote});
+		}
 	}
 }

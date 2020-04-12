@@ -21,6 +21,8 @@
             <text v-if="this.isVIP" class="vip" text-anchor="middle" :x="metadata.x" :y="metadata.y+5">VIP</text>
 
             <g class="face">
+                <text text-anchor="middle" :x="metadata.x" :y="metadata.y-30" font-family="Verdana" font-size="25" fill="blue">{{ emote }}</text>
+
                 <circle :cx="facePosition.x-4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
                 <circle :cx="facePosition.x+4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
                 <path :d="`M ${facePosition.x-4} ${facePosition.y+4} l 8 0`" stroke="#000000" stroke-width="2"></path>
@@ -33,7 +35,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { angle, distance } from "@/utils";
+import { angle, distance, emote } from "@/utils";
 
 import {audioStreamProcessor} from 'audio-stream-meter';
 
@@ -66,7 +68,11 @@ export default {
         },
         isVIP() {
             return this.metadata == this.getVIP;
-        }
+        },
+        emote() {
+            return this.metadata.emote["emote"]
+        },
+		...mapGetters(['audioContext'])
     },
     mounted() {
         if(this.isself) {
