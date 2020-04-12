@@ -1,6 +1,7 @@
 {
 	"author": "",
 	"dependencies": {
+		"audio-stream-meter": "^1.0.5",
 		"marked": "^0.7.0",
 		"md-gum-polyfill": "^1.0.0",
 		"randomcolor": "^0.5.4",

@@ -21,6 +21,8 @@
                 <circle :cx="facePosition.x-4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
                 <circle :cx="facePosition.x+4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
                 <path :d="`M ${facePosition.x-4} ${facePosition.y+4} l 8 0`" stroke="#000000" stroke-width="2"></path>
+                
+                <ellipse :cx="facePosition.x" :cy="facePosition.y+4" rx="5" :ry="1.3 + audioMeter * 50"></ellipse>
             </g>
         </g>
     </g> 
@@ -29,6 +31,8 @@
 <script>
 import { mapGetters } from "vuex";
 import { angle, distance } from "@/utils";
+
+import {audioStreamProcessor} from 'audio-stream-meter';
 
 export default {
 	name: "Person",
@@ -40,6 +44,7 @@ export default {
             draggingPointer: false,
 
             gainNode: null,
+            audioMeter: 0,
         };
     },
     computed: {
@@ -84,15 +89,19 @@ export default {
     },
     methods: {
         connectAudioSource(track) {
+            let stream = new MediaStream();
+            stream.addTrack(track);
+
+            var source = this.audioContext.createMediaStreamSource(stream);
+
+            var meter = audioStreamProcessor(this.audioContext, function() {
+                this.audioMeter = meter.volume;
+            }.bind(this));
+
+            source.connect(meter);
+            
             if(!this.isself) {
-                //TODO: Spatialize the audio
-                let stream = new MediaStream();
-                stream.addTrack(track);
-
-                var source = this.audioContext.createMediaStreamSource(stream);
-
                 var gainNode = this.audioContext.createGain();
-
                 this.gainNode = gainNode;
 
                 source.connect(gainNode);
