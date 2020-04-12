@@ -145,5 +145,5 @@ export const updateEmote = ({ commit, dispatch }, emote) => {
 }
 
 export const receiveEmote = ({ commit }, { message, peer_id }) => {
-	commit('setEmote', {emote: message.emote});
+	commit('setEmote', {emote: message.emote, peer_id: peer_id});
 }
