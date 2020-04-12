@@ -4,7 +4,7 @@
             <!-- room image -->
             <image href="@/../static/room.png" width="800" x="-400" y="-250" style="opacity: 0.5"></image>
 
-			<Boombox :x="-340" :y="-210" />
+			<Boombox :x="-315" :y="-140" />
             
             <!-- people -->
             <Person v-for="peer in getPeers" :metadata="peer" />
@@ -12,7 +12,7 @@
 		</svg>
 		<div style="position:absolute; top:0;left:0;">
 			<!-- debug -->
-			{{ JSON.stringify(getSelf) }}
+			<!--{{ JSON.stringify(getSelf) }}-->
 		</div>
 	</div>
 </template>

@@ -7,8 +7,8 @@
             <g :transform="`rotate(${pointer.angle*180/Math.PI+90})`">
                 <path v-if="metadata.pointer != undefined" :d="`M0 0 l0 ${-pointer.distance}`" stroke="#000000" stroke-width="3" stroke-dasharray="7 7"></path>
                 <g :transform="`translate(-10, ${-pointer.distance})`">
-                    <svg @mousedown="startDragPointer" width="20" height="20" viewBox="0 0 70 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M28.6695 4.41465L1.41385 62.1706C-1.39872 68.1306 5.0533 74.7979 11.3108 72.7302C18.9427 70.2082 27.7074 68 35 68C42.2926 68 51.0573 70.2082 58.6892 72.7302C64.9467 74.7979 71.3987 68.1306 68.5861 62.1706L41.3305 4.41464C38.8057 -0.935455 31.1943 -0.935448 28.6695 4.41465Z" fill="black"/>
+                    <svg @mousedown="startDragPointer" width="20" height="20" viewBox="0 0 70 74" fill="#000000" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M28.6695 4.41465L1.41385 62.1706C-1.39872 68.1306 5.0533 74.7979 11.3108 72.7302C18.9427 70.2082 27.7074 68 35 68C42.2926 68 51.0573 70.2082 58.6892 72.7302C64.9467 74.7979 71.3987 68.1306 68.5861 62.1706L41.3305 4.41464C38.8057 -0.935455 31.1943 -0.935448 28.6695 4.41465Z"/>
                     </svg>
                 </g>
             </g>
@@ -18,7 +18,7 @@
             <circle  :cx="metadata.x" :cy="metadata.y" r="20" :fill="metadata.color" stroke="#000000" stroke-width="3"></circle>
             <!--<circle :cx="facePosition.x" :cy="facePosition.y" r="10" fill="rgba(0,0,0,0.3)"></circle>-->
             
-            <text v-if="this.isVIP" class="name" text-anchor="middle" :x="metadata.x" :y="metadata.y+5">VIP</text>
+            <text v-if="this.isVIP" class="vip" text-anchor="middle" :x="metadata.x" :y="metadata.y+5">VIP</text>
 
             <g class="face">
                 <circle :cx="facePosition.x-4" :cy="facePosition.y-2" r="2" fill="#000000"></circle>
@@ -184,9 +184,16 @@ export default {
     .self .player { cursor: move }
     .self .pointer { cursor: move }
 
-    .name {
+    text.name {
         font: 12px sans-serif;
         user-select:none;
         text-align: center;
+    }
+
+    text.vip {
+        font: bold 12px sans-serif;
+        user-select:none;
+        text-align: center;
+        opacity: 0.1;
     }
 </style>

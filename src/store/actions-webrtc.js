@@ -15,7 +15,7 @@ var peers = {};                /* keep track of our peer connections, indexed by
 
 // Request audio track and send to peers
 export const requestAudioTrack = ({ state, commit }) => {
-	navigator.mediaDevices.getUserMedia({"audio": true, "video": true }).then(stream => {
+	navigator.mediaDevices.getUserMedia({"audio": true, "video": false }).then(stream => {
 		let track = stream.getAudioTracks()[0]
 
 		for(let peerID in peers) {
@@ -200,7 +200,7 @@ export const addPeer = ({ state, commit, dispatch }, config) => {
 	peer_connection.ondatachannel = function(event) {
 		var channel = event.channel;
 		channel.onopen = function(event) {
-            dispatch('initPeer', peer_id);
+			dispatch('initPeer', peer_id);
 		}
 		channel.onmessage = function(event) {
 			let message = JSON.parse(event.data);

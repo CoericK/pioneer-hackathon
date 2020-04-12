@@ -23,7 +23,9 @@ const state = {
 
 	boombox: createObject({
 		playing: false,
-		playlist: [],
+		playlist: [
+			
+		],
 		current: null
 	}),
 

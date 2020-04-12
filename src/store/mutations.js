@@ -102,5 +102,21 @@ export default {
             // update order of self
             Vue.set(state.self, 'order', order);
         }
-    }
+	},
+	
+	setPlaying(state, value) {
+		Vue.set(state.boombox, 'playing', value);
+	},
+
+	addPlaylistItem(state, data) {
+		Vue.set(state.boombox, 'playlist', [...state.boombox.playlist, data])
+	},
+
+	setCurrent(state, value) {
+		Vue.set(state.boombox, 'current', value);
+	},
+
+	setPlaylist(state, playlist) {
+		Vue.set(state.boombox, 'playlist', playlist);
+	}
 }

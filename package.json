@@ -2,13 +2,15 @@
 	"author": "",
 	"dependencies": {
 		"audio-stream-meter": "^1.0.5",
+		"get-json": "^1.0.1",
 		"marked": "^0.7.0",
 		"md-gum-polyfill": "^1.0.0",
 		"randomcolor": "^0.5.4",
 		"register-service-worker": "^1.6.2",
 		"socket.io-client": "^2.3.0",
 		"vue": "^2.6.10",
-		"vuex": "^3.1.1"
+		"vuex": "^3.1.1",
+		"yt-player": "^3.4.3"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.6.2",

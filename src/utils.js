@@ -1,4 +1,7 @@
 
+import YTPlayer from 'yt-player';
+
+
 export const createPerson = (data) => {
     return Object.assign({
         name: '',
@@ -34,4 +37,57 @@ export const angle = (p1, p2) => {
 
 export const distance = (p1, p2) => {
     return Math.sqrt((p1.x-p2.x)*(p1.x-p2.x) + (p1.y-p2.y)*(p1.y-p2.y));
+}
+
+/*export const isVideoInPlaylist = (video_id, playlist) => {
+    return getVideoFromPlaylist(video_id, playlist) != undefined;
+}*/
+
+export const getVideoFromPlaylist = (video_id, playlist) => {
+    let data;
+    for(let i = 0; i < playlist.length; i++) {
+        if(playlist[i].video_id == video_id) {
+            data = playlist[i]
+        }
+    }
+
+    return data;
+}
+
+export const initializePlayer = (element_id, video_id) => {
+    const player = new YTPlayer(element_id, {
+        width: '0',
+        height: '0',
+        playerVars: {
+            autoplay: true,
+        }
+        
+    });
+
+    player.load(video_id, true);
+    player.setPlaybackQuality('small');
+
+    /*console.log(YT);
+    let player = new YT.player(element_id, {
+        height: '0',
+        width: '0',
+        videoId: video_id,
+        playerVars: {
+            autoplay: true,
+        },
+        events: {
+            onReady() {
+                player.setPlaybackQuality('small');
+            },
+            onStateChange(e) {
+                if(e.data == YT.PlayerState.ENDED) {
+                    if(events && 'ended' in events) {
+                        events['ended']()
+                    }
+                }
+            }
+        }
+    });*/
+
+    return player;
 }

@@ -1,4 +1,6 @@
 
+import { getVideoFromPlaylist } from '@/utils';
+
 // Called WebRTC recieves a message from peer
 // Not a great idea but simply dispatches message along
 export const recieveMessage = ({ dispatch }, { message, peer_id }) => {
@@ -16,13 +18,20 @@ export const sendMessage = ({ state }, { message, peer_id }) => {
 }
 
 
-export const initPeer = ({ state, dispatch }, peer_id) => {
+export const initPeer = ({ state, dispatch, getters }, peer_id) => {
 	dispatch('sendMessage', { message: { type: 'recieveName', name: state.self.name }, peer_id });
 	dispatch('sendMessage', { message: { type: 'recieveColor', color: state.self.color }, peer_id });
 	dispatch('sendMessage', { message: { type: 'recievePosition', x: state.self.x, y: state.self.y }, peer_id });
 	dispatch('sendMessage', { message: { type: 'recieveDirection', angle: state.self.angle }, peer_id });
 
 	dispatch('sendMessage', { message: { type: 'recieveOrder', order: state.self.order }, peer_id });
+
+	if(getters.getVIP == state.self) {
+		dispatch('sendMessage', { message: { type: 'recievePlaylist', playlist: state.boombox.playlist.slice() }, peer_id });
+		//dispatch('recievePlaylist', { message: { playlist: state.boombox.playlist }});
+		dispatch('sendMessage', { message: { type: 'recievePlaying', value: state.boombox.playing }, peer_id });
+		dispatch('sendMessage', { message: { type: 'recieveCurrent', current: state.boombox.current }, peer_id });
+	}
 }
 
 
@@ -85,4 +94,50 @@ export const updateOrder = ({ commit, dispatch }, order) => {
 }
 export const recieveOrder = ({ state, commit }, { message, peer_id }) => {
 	commit('setOrder', { order: message.order, peer_id });
+}
+
+
+export const togglePlay = ({ state, commit, dispatch }) => {
+	let newState = !state.boombox.playing;
+
+	dispatch('sendMessage', { message: { type: 'recievePlaying', value: newState }});
+	commit('setPlaying', newState);
+}
+
+export const recievePlaying = ({ commit }, { message, peer_id }) => {
+	commit('setPlaying', message.value);
+}
+
+export const addPlaylistItem = ({ commit, dispatch }, data) => {
+	dispatch('sendMessage', { message: { type: 'recievePlaylistItem', data }});
+	commit('addPlaylistItem', data);
+}
+
+export const recievePlaylistItem = ({ commit }, { message, peer_id }) => {
+	commit('addPlaylistItem', message.data);
+}
+
+export const removePlaylistItem = ({ commit, dispatch }, video_id) => {
+
+}
+
+export const nextVideo = ({ state, commit, dispatch }) => {
+	let currentVideo = getVideoFromPlaylist(state.boombox.current, state.boombox.playlist);
+	
+	let index = state.boombox.playlist.indexOf(currentVideo);
+	let newVideoID = state.boombox.playlist[(index+1) % state.boombox.playlist.length].video_id;
+
+	dispatch('sendMessage', { message: { type: 'recieveCurrent', current: newVideoID }});
+	commit('setCurrent', newVideoID);
+}
+
+export const recieveCurrent = ({ commit }, { message, peer_id }) => {
+	commit('setCurrent', message.current);
+}
+
+export const recievePlaylist = ({ commit, getters, state }, { message, peer_id }) => {
+	if(getters.getVIP != state.self) {
+		commit('setPlaylist', message.playlist);
+	}
+	
 }
