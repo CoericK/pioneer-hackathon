@@ -66,8 +66,6 @@ export const recieveDirection = ({ commit }, { message, peer_id }) => {
 	commit('setDirection', {angle: message.angle, peer_id});
 }
 
-
-
 export const updatePointer = ({ commit, dispatch }, pointer) => {
 	dispatch('sendMessage', { message: { type: 'recievePointer', pointer }});
 	commit('setPointer', { pointer });
@@ -140,4 +138,13 @@ export const recievePlaylist = ({ commit, getters, state }, { message, peer_id }
 		commit('setPlaylist', message.playlist);
 	}
 	
+}
+export const updateEmote = ({ commit, dispatch }, emote) => {
+	dispatch('sendMessage', { message: { type: 'receiveEmote', ...emote } } );
+
+	commit('setEmote', {emote});
+}
+
+export const receiveEmote = ({ commit }, { message, peer_id }) => {
+	commit('setEmote', {emote: message, peer_id});
 }

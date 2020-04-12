@@ -5,12 +5,15 @@
 
 		<!-- show once connected -->
 		<Room v-if="isConnected"/>
+
+		<Panel v-if="isConnected"/>
 	</div>
 </template>
 
 <script>
 import Room from "@/components/Room";
 import Connect from "@/components/Connect";
+import Panel from "@/components/Panel";
 
 import { mapGetters } from "vuex";
 
@@ -21,7 +24,8 @@ export default {
 	},
 	components: {
 		Room,
-		Connect
+		Connect,
+		Panel
 	}
 };
 </script>
